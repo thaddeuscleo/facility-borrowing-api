@@ -3,6 +3,9 @@ import { ApolloDriverConfig } from '@nestjs/apollo/dist/interfaces';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { BorrowingRequestsModule } from 'src/borrowing-requests/borrowing-requests.module';
+import { RoomsModule } from 'src/rooms/rooms.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { join } from 'path';
       playground: false,
       introspection: false,
     }),
+    RoomsModule,
+    UsersModule,
+    BorrowingRequestsModule
   ],
   providers: [],
 })
