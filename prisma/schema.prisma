@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Admin
+  DepartmentCoordinator
+}
+
+model Room {
+  id               String             @id @default(uuid())
+  name             String             @unique
+  BorrowingRequest BorrowingRequest[]
+}
+
+model User {
+  id   String @id @default(uuid())
+  role Role 
+}
+
+model BorrowingRequest {
+  id         String   @id @default(uuid())
+  room       Room     @relation(fields: [roomId], references: [id])
+  roomId     String
+  isApproved Boolean  @default(false)
+  startTime  DateTime
+  endTime    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+}
