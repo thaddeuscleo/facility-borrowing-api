@@ -19,17 +19,17 @@ export class BorrowingRequestsResolver {
   }
 
   @Query(() => BorrowingRequest, { name: 'borrowingRequest' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.borrowingRequestsService.findOne(id);
   }
 
   @Mutation(() => BorrowingRequest)
   updateBorrowingRequest(@Args('updateBorrowingRequestInput') updateBorrowingRequestInput: UpdateBorrowingRequestInput) {
-    return this.borrowingRequestsService.update(updateBorrowingRequestInput.id, updateBorrowingRequestInput);
+    return this.borrowingRequestsService.update(updateBorrowingRequestInput);
   }
 
   @Mutation(() => BorrowingRequest)
-  removeBorrowingRequest(@Args('id', { type: () => Int }) id: number) {
+  removeBorrowingRequest(@Args('id', { type: () => String }) id: string) {
     return this.borrowingRequestsService.remove(id);
   }
 }

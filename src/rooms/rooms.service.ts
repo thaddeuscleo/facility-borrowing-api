@@ -1,26 +1,54 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateRoomInput } from './dto/create-room.input';
 import { UpdateRoomInput } from './dto/update-room.input';
 
 @Injectable()
 export class RoomsService {
-  create(createRoomInput: CreateRoomInput) {
-    return 'This action adds a new room';
+  constructor(private readonly prisma: PrismaService) {}
+
+  create({ name, borrowingRequests }: CreateRoomInput) {
+    return this.prisma.room.create({
+      data: {
+        name,
+        borrowingRequest: {
+          connect: [...borrowingRequests.map((id) => ({ id }))],
+        },
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all rooms`;
+    return this.prisma.room.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} room`;
+  findOne(id: string) {
+    return this.prisma.room.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateRoomInput: UpdateRoomInput) {
-    return `This action updates a #${id} room`;
+  update({ id, name, borrowingRequests }: UpdateRoomInput) {
+    return this.prisma.room.update({
+      data: {
+        name,
+        borrowingRequest: {
+          connect: [...borrowingRequests.map((id) => ({ id }))],
+        },
+      },
+      where: {
+        id,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} room`;
+  remove(id: string) {
+    return this.prisma.room.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

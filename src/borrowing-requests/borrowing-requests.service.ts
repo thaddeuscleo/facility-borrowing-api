@@ -1,26 +1,58 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateBorrowingRequestInput } from './dto/create-borrowing-request.input';
 import { UpdateBorrowingRequestInput } from './dto/update-borrowing-request.input';
 
 @Injectable()
 export class BorrowingRequestsService {
-  create(createBorrowingRequestInput: CreateBorrowingRequestInput) {
-    return 'This action adds a new borrowingRequest';
+  constructor(private readonly prisma: PrismaService) {}
+
+  create({ userId, roomId, endTime, startTime }: CreateBorrowingRequestInput) {
+    return this.prisma.borrowingRequest.create({
+      data: {
+        userId,
+        roomId,
+        startTime,
+        endTime,
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all borrowingRequests`;
+    return this.prisma.borrowingRequest.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} borrowingRequest`;
+  findOne(id: string) {
+    return this.prisma.borrowingRequest.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateBorrowingRequestInput: UpdateBorrowingRequestInput) {
-    return `This action updates a #${id} borrowingRequest`;
+  update({
+    id,
+    endTime,
+    isApproved,
+    roomId,
+    startTime,
+    userId,
+  }: UpdateBorrowingRequestInput) {
+    return this.prisma.borrowingRequest.update({
+      data: {
+        endTime,
+        isApproved,
+        roomId,
+        startTime,
+        userId,
+      },
+      where: {
+        id,
+      },
+    });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} borrowingRequest`;
   }
 }

@@ -2,71 +2,174 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type BorrowingRequest {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type Room {
+  """Room identifier"""
+  id: ID!
+
+  """Room name"""
+  name: String!
+
+  """Room identifier"""
+  borrowingRequests: [BorrowingRequest!]!
 }
 
-type Room {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type BorrowingRequest {
+  """Borrowing Request Identifier"""
+  id: ID!
+
+  """The Borrowing Request room"""
+  room: Room!
+
+  """Approval for room borrowing"""
+  isApproved: Boolean!
+
+  """Approval for start time"""
+  startTime: DateTime!
+
+  """Approval for end time"""
+  endTime: DateTime!
+
+  """Approval for create at"""
+  createdAt: DateTime!
+
+  """Approval for update at"""
+  updatedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """User identifier"""
+  id: ID!
+
+  """User email address"""
+  email: String!
+
+  """User account username"""
+  username: String!
+
+  """User role"""
+  role: Role!
+
+  """User role"""
+  borrowingRequest: BorrowingRequest!
+
+  """User creation date"""
+  createAt: DateTime!
+
+  """User update date"""
+  updateAt: DateTime!
+}
+
+"""Roles for user permissions"""
+enum Role {
+  Admin
+  DepartmentCoordinator
 }
 
 type Query {
   rooms: [Room!]!
-  room(id: Int!): Room!
+  room(id: String!): Room!
   users: [User!]!
-  user(id: Int!): User!
+  user(id: String!): User!
   borrowingRequests: [BorrowingRequest!]!
-  borrowingRequest(id: Int!): BorrowingRequest!
+  borrowingRequest(id: String!): BorrowingRequest!
 }
 
 type Mutation {
   createRoom(createRoomInput: CreateRoomInput!): Room!
   updateRoom(updateRoomInput: UpdateRoomInput!): Room!
-  removeRoom(id: Int!): Room!
+  removeRoom(id: String!): Room!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser(id: String!): User!
   createBorrowingRequest(createBorrowingRequestInput: CreateBorrowingRequestInput!): BorrowingRequest!
   updateBorrowingRequest(updateBorrowingRequestInput: UpdateBorrowingRequestInput!): BorrowingRequest!
-  removeBorrowingRequest(id: Int!): BorrowingRequest!
+  removeBorrowingRequest(id: String!): BorrowingRequest!
 }
 
 input CreateRoomInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Room name. ex: GC Hall"""
+  name: String!
+
+  """Room name. ex: GC Hall"""
+  borrowingRequests: [String!] = []
 }
 
 input UpdateRoomInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """Room name. ex: GC Hall"""
+  name: String
+
+  """Room name. ex: GC Hall"""
+  borrowingRequests: [String!] = []
+  id: String!
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """User username"""
+  username: String!
+
+  """User email address"""
+  email: String!
+
+  """User password"""
+  password: String!
+
+  """User role"""
+  role: Role!
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """User username"""
+  username: String
+
+  """User email address"""
+  email: String
+
+  """User password"""
+  password: String
+
+  """User role"""
+  role: Role
+
+  """User identifier"""
+  id: ID!
 }
 
 input CreateBorrowingRequestInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Room identifier"""
+  roomId: ID!
+
+  """User identifier"""
+  userId: ID!
+
+  """Room identifier"""
+  isApproved: Boolean!
+
+  """Room borrowing start time"""
+  startTime: DateTime!
+
+  """Room borrowing end time"""
+  endTime: DateTime!
 }
 
 input UpdateBorrowingRequestInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """Room identifier"""
+  roomId: ID
+
+  """User identifier"""
+  userId: ID
+
+  """Room identifier"""
+  isApproved: Boolean
+
+  """Room borrowing start time"""
+  startTime: DateTime
+
+  """Room borrowing end time"""
+  endTime: DateTime
+  id: String!
 }
